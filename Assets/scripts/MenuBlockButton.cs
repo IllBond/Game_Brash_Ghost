@@ -12,15 +12,15 @@ public class MenuBlockButton : MonoBehaviour
     public GameObject txt_Game2;
 
     void Start() {
-        if (PlayerPrefs.GetInt("bestDistance") > 50) {
+        //if (PlayerPrefs.GetInt("bestDistance") >= 0) {
             txt_Shop.SetActive(false);
             btn_Shop.interactable = true;
-        } 
+       // } 
         
-        if (PlayerPrefs.GetInt("bestDistance") > 100) {
+       // if (PlayerPrefs.GetInt("bestDistance") >= 0) {
             txt_Game2.SetActive(false);
             btn_Game2.interactable = true;
-        }
+       // }
 
 
 

@@ -16,6 +16,7 @@ public class TutorialButtons : MonoBehaviour
     public GameObject tut9;
     public GameObject tut10;    
     public GameObject tut11;
+    public GameObject tut12;
 
 
     public AudioSource Audio_A;
@@ -45,6 +46,7 @@ public class TutorialButtons : MonoBehaviour
         tut9.SetActive(false);
         tut10.SetActive(false);
         tut11.SetActive(false);
+        tut12.SetActive(false);
 
      
 
@@ -55,6 +57,6 @@ public class TutorialButtons : MonoBehaviour
         Audio_A.PlayOneShot(ClickButton_A);
         Time.timeScale = 1f;
         PlayerPrefs.SetInt("tutorial", 1);
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("CheckLevel");
     }
 }

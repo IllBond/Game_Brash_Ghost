@@ -45,6 +45,13 @@ public class PlayerController : MonoBehaviour
     public float timeToRestartButtonRebith;
     public float timeToRestartButtonRebith_prev;
     public float timeToRestartButtonRebith_NOW;
+   
+    
+    // Кнопка возрадиться
+    public GameObject RestartButtonRebith_ADS;
+    //public Button RestartButtonRebith_btn;
+
+
 
     // Монеты
     public int coins;
@@ -73,6 +80,14 @@ public class PlayerController : MonoBehaviour
     public int speedTime = 7;
     public float startSpeedTime;
 
+    //Когда конец игры
+
+    public float needToWin = 100000000000000;
+    public int nowLVL = 0;
+    public string nextLevel = "menu";
+    public bool isWin = false;
+    
+
     public AudioSource Audio_A;
     public AudioClip dmg_A;
     public AudioClip bonus_A;
@@ -83,12 +98,14 @@ public class PlayerController : MonoBehaviour
     public AudioClip ClickButton_A;
     public AudioClip IceButton_A;
     public AudioClip error_A;
+    public AudioClip win_A;
 
     public GameObject jumpBTN;
     public GameObject fallenBTN;
     public GameObject cloudfallenBTN;
     public GameObject wolfBTN;
     public GameObject pause;
+    public GameObject Win;
     public GameObject ice;
     public GameObject buttons;
     public GameObject gameOverBlock;
@@ -118,6 +135,8 @@ public class PlayerController : MonoBehaviour
     private int Jumper;
 
     void Start() {
+
+        Time.timeScale = 1f;
         Jumper = JumpCount;
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
@@ -195,6 +214,12 @@ public class PlayerController : MonoBehaviour
             jump();
         }
 
+
+     
+        if (transform.position.x+10 >= needToWin*10 && isWin == false) {
+            winF();
+        }
+        
         novPostiionPlayer = transform.position.x + 10;
         distText.text = "" + Mathf.Round(novPostiionPlayer / 10);
 
@@ -352,14 +377,27 @@ public class PlayerController : MonoBehaviour
         coins = coins + 1;
         PlayerPrefs.SetInt("score", coins);
         coinsText.text = "" + coins;
-    }    
+    }   
+        
+    
+    public void add200Coin() {
+        coins = coins + 100;
+        PlayerPrefs.SetInt("score", coins);
+        coinsText.text = "" + coins;
+    }   
+    
+
+
         
     
     public void GiveCoin(int coinPiece) {
         coins = coins - coinPiece;
         PlayerPrefs.SetInt("score", coins);
         coinsText.text = "" + coins;
-    }    
+    }     
+    
+    
+   
     
   
 
@@ -556,6 +594,26 @@ public class PlayerController : MonoBehaviour
         soundTheme.volume = 0.3f;
     }
 
+    public void winF() {
+        Win.SetActive(true);
+        Time.timeScale = 0f;
+        buttons.SetActive(false);
+        PlayMusic(win_A);
+        isWin = true;
+        if (nowLVL >= PlayerPrefs.GetInt("lvl") ) {
+            PlayerPrefs.SetInt("lvl", nowLVL + 1);
+        }
+        
+    }   
+    
+    
+    public void nextLevelF() {
+        SceneManager.LoadScene(nextLevel);
+    }
+
+
+
+
     public void offButtonsAndPause() {
         pauseBTN.SetActive(false);
         buttons.SetActive(false);
@@ -613,11 +671,11 @@ public class PlayerController : MonoBehaviour
 
 
         if (PlayerPrefs.GetInt("score") >= 100) {
-            /* RestartButtonRebith_text.SetActive(false);*/
             RestartButtonRebith_btn.interactable = true;
+            RestartButtonRebith_ADS.SetActive(false);
         } else  {
-        /*    RestartButtonRebith_text.SetActive(true);
-            RestartButtonRebith_btn.interactable = false;*/
+            RestartButtonRebith_btn.interactable = false;
+            RestartButtonRebith_ADS.SetActive(true);
         }
 
         Time.timeScale = 0f;
@@ -640,7 +698,8 @@ public class PlayerController : MonoBehaviour
     public void RestartGame() {
         SoundClick();
         Time.timeScale = 1f;
-        SceneManager.LoadScene("Game");
+        // SceneManager.LoadScene("Game");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }  
     
     public string GetIsState() {

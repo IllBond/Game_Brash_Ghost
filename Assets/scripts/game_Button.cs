@@ -5,9 +5,19 @@ using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.Advertisements;
+
 
 public class game_Button : MonoBehaviour
 {
+    private Coroutine showAd;
+
+    private string gameId = "4005073";
+    private string type = "video";
+
+    private bool testMode = false;
+
+
 
     public GameObject playerObject;
     private PlayerController PlayerController;
@@ -21,6 +31,7 @@ public class game_Button : MonoBehaviour
     private void Start()
     {
         PlayerController = playerObject.GetComponent<PlayerController>();
+        Advertisement.Initialize(gameId, testMode);
     }
 
     public void jump()
@@ -68,10 +79,44 @@ public class game_Button : MonoBehaviour
     }
 
     public void rebirthAD() {
-        PlayerController.AddHeart();
-        PlayerController.HidengameOverBlock();
-        PlayerController.pauseBTN.SetActive(true);
-        PlayerController.resest_timeToRestartButtonRebith_prev();
+        showAd = StartCoroutine(ShowAd_f());
+    }    
+    
+    
+
+   
+    IEnumerator ShowAd_f()
+    {
+        while (true)
+        {
+            Debug.Log("Ready");
+            if (Advertisement.IsReady(type)) {
+                Advertisement.Show(type);
+               
+
+                PlayerController.add200Coin();
+
+
+
+                if (PlayerPrefs.GetInt("score") >= 100)
+                {
+                    PlayerController.RestartButtonRebith_btn.interactable = true;
+                    PlayerController.RestartButtonRebith_ADS.SetActive(false);
+                } else {
+                    PlayerController.RestartButtonRebith_btn.interactable = false;
+                    PlayerController.RestartButtonRebith_ADS.SetActive(true);
+                }
+
+
+               // StopCoroutine(showAd);
+                /* PlayerController.AddHeart();
+                 PlayerController.HidengameOverBlock();
+                 PlayerController.pauseBTN.SetActive(true);
+                 PlayerController.resest_timeToRestartButtonRebith_prev();*/
+            }
+
+            yield return new WaitForSeconds(1f);
+        }
     }
 
 }

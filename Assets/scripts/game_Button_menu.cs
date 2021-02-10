@@ -27,11 +27,30 @@ public class game_Button_menu : MonoBehaviour {
     
     public void BTN_PlayGamess2() {
            Time.timeScale = 1f;
-           SceneManager.LoadScene("Game2");
+        if (PlayerPrefs.GetInt("tutorial") != 1)
+        {
+            SceneManager.LoadScene("GameTutorial");
+        }  else
+        {
+            SceneManager.LoadScene("GameSky");
+        }
+        
     }
 
     public void BTN_Menu() {
             SceneManager.LoadScene("Menu");
+    }    
+    
+    public void CheckLevel() {
+            
+
+        if (PlayerPrefs.GetInt("tutorial") != 1)
+        {
+            SceneManager.LoadScene("GameTutorial");
+        } else
+        {
+            SceneManager.LoadScene("CheckLevel");
+        }
     }
 
     public void BTN_Shop() {
@@ -39,7 +58,7 @@ public class game_Button_menu : MonoBehaviour {
     }
 
     public void BTN_Tutorial() {
-            SceneManager.LoadScene("Tutorial");
+            SceneManager.LoadScene("GameTutorial");
     }
 
     public void BTN_Setting() {
@@ -64,7 +83,8 @@ public class game_Button_menu : MonoBehaviour {
             PlayerPrefs.SetInt("Coin_Presf", 0);
             PlayerPrefs.SetInt("GodTime_Presf", 0);
             PlayerPrefs.SetInt("Hearts_Presf", 0);
-            //PlayerPrefs.SetInt("tutorial", 0);
+            PlayerPrefs.SetInt("lvl", 1);
+            PlayerPrefs.SetInt("tutorial", 0);
         }
         
     }    

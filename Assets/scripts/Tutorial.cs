@@ -22,6 +22,7 @@ public class Tutorial : MonoBehaviour
     public GameObject tut9;
     public GameObject tut10;
     public GameObject tut11;
+    public GameObject tut12;
 
 
     public GameObject invBLOCK;
@@ -103,8 +104,13 @@ public class Tutorial : MonoBehaviour
                         Tutorial_10_Spawn();
                     }
                     break;
-                case 570:
+                case 560:
                     if (whatIsTut == 11){
+                        Tutorial_11_Spawn();
+                    }
+                    break;
+                case 570:
+                    if (whatIsTut == 12){
                         over();
                     }
                     break;
@@ -178,9 +184,16 @@ public class Tutorial : MonoBehaviour
         Time.timeScale = 0f;
         whatIsTut++;
     }   
+        
+    void Tutorial_11_Spawn() {
+        BTN_Fast.SetActive(true);
+        tut11.SetActive(true);
+        Time.timeScale = 0f;
+        whatIsTut++;
+    }   
     
     void over() {
-        tut11.SetActive(true);
+        tut12.SetActive(true);
         Time.timeScale = 0f;
         whatIsTut++;
     }
